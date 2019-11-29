@@ -1,7 +1,11 @@
 package mpei;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Shingle {
 	private static int ktitle = 5;
@@ -36,8 +40,35 @@ public class Shingle {
 		return shingles.toArray(new String[0]);
 	}
 	
-	
-	public static void main(String args[]) {
+	public static boolean writeShingleFile(String path) throws IOException {
+		File shingles = new File("shingles.txt");
+		String title = "";
+		String content = "";
+		shingles.createNewFile();
+		Scanner readfx;
+		try {
+			readfx = new Scanner(new File(path));
+			while(readfx.hasNextLine()) {
+				String line = readfx.nextLine();
+				if(line.startsWith("Title: ")) {
+					title = line.substring(7);
+				}
+				if(line.startsWith("*** START OF THIS PROJECT GUTENBERG EBOOK")) {
+					while(readfx.hasNextLine()) {
+						content = content + " " + readfx.nextLine();
+					}
+				}
+				readfx.close();
+			}
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		createShingleContent(content);
+		createShingleTitle(title);
+		return true;	
+	}
+
+	public static void main(String args[]) throws IOException {
 		Shingle.createShingleTitle("Alabama");
 		Shingle.createShingleContent("Amor é fogo que arde sem se ver\r\n" + 
 				"\r\n" + 
@@ -58,5 +89,7 @@ public class Shingle {
 				"Mas como causar pode seu favor\r\n" + 
 				"Nos corações humanos amizade,\r\n" + 
 				"Se tão contrário a si é o mesmo Amor?");
+//		Shingle.writeShingleFile("C:\\Users\\Ahri Gonçalves\\Desktop");
+		
 	}
 }
