@@ -14,7 +14,6 @@ public class Shingle {
 	
 	
 	public static void createShingleFile(String path){
-		//Analisar o ficheiro, leitura 
 		File fx = new File(path);
 		String title = "";
 		String content = "";
@@ -28,10 +27,10 @@ public class Shingle {
 		            line = in.readLine();
 	            }
 	            if(line.startsWith("*** START OF THIS PROJECT GUTENBERG EBOOK")) {
-	            	while(!((line = in.readLine()).startsWith("*** END OF THIS PROJECT GUTENBERG EBOOK"))) {
-	            		sb.append(line);
+	            	do {
 	            		line = in.readLine();
-	            	}
+	            		sb.append(line);
+	            	}while(!((line = in.readLine()).startsWith("*** END OF THIS PROJECT GUTENBERG EBOOK")));
 	            }
 	        }
 	        content = sb.toString();
@@ -49,11 +48,11 @@ public class Shingle {
 	}
 			
 	private static String[] createShingleTitle(String titulo) {
-		String nospaces = titulo.replaceAll("\\s+|\\.|\\,|\\;|\\:", "");
+		String s = titulo.replaceAll("[^a-zA-Z0-9]", "");
 		List<String> shingles = new ArrayList<>();
-		for(int j=0; j<nospaces.length()-ktitle+1; j++) {
+		for(int j=0; j<s.length()-ktitle+1; j++) {
 			String word = "";
-			word = nospaces.substring(j, j+ktitle).toLowerCase();
+			word = s.substring(j, j+ktitle).toLowerCase();
 			if(!shingles.contains(word)) {
 				shingles.add(word);
 				//System.out.print(word + " ");
@@ -63,11 +62,11 @@ public class Shingle {
 	}
 	
 	private static String[] createShingleContent(String content){
-		String nospaces = content.replaceAll("\\s+|\\.|\\,|\\;|\\:", "");
+		String s = content.replaceAll("[^a-zA-Z0-9]", "");
 		List<String> shingles = new ArrayList<>();
-		for(int j=0; j<nospaces.length()-kcontent+1; j++) {
+		for(int j=0; j<s.length()-kcontent+1; j++) {
 			String word = "";
-			word = nospaces.substring(j, j+kcontent).toLowerCase();
+			word = s.substring(j, j+kcontent).toLowerCase();
 			if(!shingles.contains(word)) {
 				shingles.add(word);
 				//System.out.println(word + " ");
@@ -88,6 +87,11 @@ public class Shingle {
 		pw.close();
 		System.out.print("SHINGLE FILE FOR "+title+" BOOK CREATED!");
 	}
+	
+	// adicional para hashing dos shingles, diminuir o tamanho
+//	private static long shingleToHash(String[] contentset) {
+//		
+//	}
 	
 	public static void main(String args[]) throws IOException {
 		Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
