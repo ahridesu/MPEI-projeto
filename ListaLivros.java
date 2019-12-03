@@ -12,22 +12,13 @@ public class ListaLivros {
 	}
 	
 	public static int getIndex(String titulo) {
-		if(exists(titulo)) {
-			for(Livro l: lista) {
-				if(l.getTitulo().equals(titulo)) {
-					return l.getIndice();
-				}
-			}
-		}					
-		return -1;				// nao existe
-	}
-	
-	private static boolean exists(String titulo) {
+		Livro livro = null;
 		for(Livro l: lista) {
 			if(l.getTitulo().equals(titulo)) {
-				return true;
+				return l.getIndice();
 			}
 		}
-		return false;
+		return -1;
 	}
+	
 }

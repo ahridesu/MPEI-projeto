@@ -11,8 +11,8 @@ public class Livro {
 	//___________CONSTRUTORES______________
 	
 	public Livro(String titulo) {
-		this.titulo = titulo;
-		data = null;
+		this.titulo = titulo.replace(".txt", "");
+		this.data = Data.today();
 		indice = current_indice++;
 	}
 	
@@ -47,7 +47,7 @@ public class Livro {
 	
 	@Override public String toString() { //toString com nome e estado de requisiÃ§Ã£o
 		String s = "Titulo: '"+titulo+"', Requisitado: "+req+", Data de Requisição: " +data.toString();
-		String n = "Titulo: '"+titulo+"', Requisitado: "+req;
+		String n = "Titulo: '"+titulo+"'" + "Indice matrix: " + indice +", Requisitado: "+req;
 		if(req == true) return s; else return n;
 	}
 	

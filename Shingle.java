@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -15,7 +16,6 @@ public class Shingle {
 	private static int numhash = 10;
 	public static int matrixTitle[][] = new int[50][numhash];
 	public static int matrixContent[][] = new int[50][numhash];
-	private static int counter = 0;
 	
 	public static void createShingleFile(String path){
 		File fx = new File(path);
@@ -96,8 +96,11 @@ public class Shingle {
 	}
 	
 	public static void readShingleFile(String path) throws IOException {
-		counter++;
 		File fx = new File(path);
+		int index = ListaLivros.getIndex(fx.getName().replace("_shingles.txt", ""));
+		if(index == -1) {
+			throw new IllegalArgumentException("PROBLEMA COM INDEX DO LIVRO");
+		}
 		Scanner read = new Scanner(fx);
 		while(read.hasNextLine()) {
 			String line = read.nextLine();
@@ -109,8 +112,8 @@ public class Shingle {
 				String shingle = readtitle.next();
 				HashFunction[] hf = getHashFunctions(shingle);
 				for(int i=0; i<hf.length; i++) {
-					if(matrixTitle[counter][i] == 0 || matrixTitle[counter][i] > hf[i].signature()) {
-						matrixTitle[counter][i] = hf[i].signature();
+					if(matrixTitle[0][i] == 0 || matrixTitle[0][i] > hf[i].signature()) {
+						matrixTitle[0][i] = hf[i].signature();
 					}
 				}
 			}
@@ -122,8 +125,8 @@ public class Shingle {
 				String shingle = readcontent.next();
 				HashFunction[] hf = getHashFunctions(shingle);
 				for(int i=0; i<hf.length; i++) {
-					if(matrixContent[counter][i] == 0 || matrixContent[counter][i] > hf[i].signature()) {
-						matrixContent[counter][i] = hf[i].signature();
+					if(matrixContent[0][i] == 0 || matrixContent[0][i] > hf[i].signature()) {
+						matrixContent[0][i] = hf[i].signature();
 					}
 				}
 			}
@@ -141,9 +144,11 @@ public class Shingle {
 	
 	public static void main(String args[]) throws IOException {
 		Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
+		Livro livro = new Livro("Dracula");
+		ListaLivros.lista.add(livro);
 		Shingle.readShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\Dracula_shingles.txt");
-//		for (int[] row : matrixTitle) 
-//            System.out.println(Arrays.toString(row)); 
+		for (int[] row : matrixTitle) 
+            System.out.println(Arrays.toString(row)); 
 //		for (int[] row : matrixContent) 
 //            System.out.println(Arrays.toString(row)); 
 	}
