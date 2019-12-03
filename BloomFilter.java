@@ -11,10 +11,6 @@ public class BloomFilter {
         size = (int)(Math.ceil((n*Math.log(nFP))/Math.log(1/Math.pow(2, Math.log(2)))));
         k = (int)(Math.ceil((size/n)*Math.log(2)));
         bitarray = new int[size];
-//        char[] letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-//        for(int i=0; i<letters.length; i++){
-//            alphabet.put(letters[i], i+1);
-//        }
     }
 
     public int[] getBitArray(){

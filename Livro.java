@@ -41,6 +41,7 @@ public class Livro {
 	
 	public void setRequisitado(boolean req) {
 		this.req = req;
+		
 	}
 	
 	//______________PRINTS_____________________
