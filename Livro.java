@@ -1,4 +1,3 @@
-package mpei;
 
 public class Livro {
 	private String titulo;
@@ -15,7 +14,7 @@ public class Livro {
 		this.data = Data.today();
 	}
 	
-	public Livro(String titulo, String sinopse, Data data) { // Para livros requisitados, se adicionada data então fica requisitado
+	public Livro(String titulo, String sinopse, Data data) { // Para livros requisitados, se adicionada data entï¿½o fica requisitado
 		this(titulo);
 		req = true;
 		nReq++;
@@ -42,7 +41,7 @@ public class Livro {
 	//______________PRINTS_____________________
 	
 	@Override public String toString() { 
-		String s = "Titulo: '"+titulo+"', Requisitado: "+req+", Data de Requisição: " +data.toString();
+		String s = "Titulo: '"+titulo+"', Requisitado: "+req+", Data de Requisiï¿½ï¿½o: " +data.toString();
 		String n = "Titulo: '"+titulo+"'" + ", Requisitado: "+req;
 		if(req == true) return s; else return n;
 	}

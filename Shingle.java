@@ -1,4 +1,3 @@
-package mpei;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +8,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Shingle {					// destinado tratamento e criação de shingles
+public class Shingle {					// destinado tratamento e criaï¿½ï¿½o de shingles
 	private static int ktitle = 4;
 	private static int kcontent = 10;
 	private static int numhash = 10000;
@@ -81,7 +80,8 @@ public class Shingle {					// destinado tratamento e criação de shingles
 	}
 	
 	private static String createShingleFile(String name, String[] titleset, String[] contentset) throws IOException{
-		File fx = new File("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\" + name + "_shingles.txt"); 
+		String dir = new File(".").getCanonicalPath();
+		File fx = new File (dir +"\\Shingles\\"+ name + "_shingles.txt"); 
 		PrintWriter pw = new PrintWriter(fx);
 		for(String i: titleset)
 			pw.print(i + "_");					//shingles divididos por _
@@ -150,20 +150,20 @@ public class Shingle {					// destinado tratamento e criação de shingles
 		return sign;
 	}
 	
-	public static void main(String args[]) throws IOException {
-		Shingle sg = new Shingle();
-		Livro livro = new Livro("test");
-		Livro livro1 = new Livro("test_copia");
-		ListaLivros.lista.add(livro);
-		ListaLivros.lista.add(livro1);
-		String path1 = Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
-		String path2 = Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test_copia.txt");
-		Shingle.readShingleFile(path1);
-		Shingle.readShingleFile(path2);
-		for(int i: livro.minHashTitle) 
-			System.out.print(i + " ");
-		System.out.println("");
-		for(int i: livro1.minHashTitle)
-			System.out.print(i + " ");
-	}
+	// public static void main(String args[]) throws IOException {
+	// 	Shingle sg = new Shingle();
+	// 	Livro livro = new Livro("test");
+	// 	Livro livro1 = new Livro("test_copia");
+	// 	ListaLivros.lista.add(livro);
+	// 	ListaLivros.lista.add(livro1);
+	// 	String path1 = Shingle.createShingleFile("C:\\Users\\Ahri Gonï¿½alves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
+	// 	String path2 = Shingle.createShingleFile("C:\\Users\\Ahri Gonï¿½alves\\eclipse-workspace\\p3\\src\\mpei\\test_copia.txt");
+	// 	Shingle.readShingleFile(path1);
+	// 	Shingle.readShingleFile(path2);
+	// 	for(int i: livro.minHashTitle) 
+	// 		System.out.print(i + " ");
+	// 	System.out.println("");
+	// 	for(int i: livro1.minHashTitle)
+	// 		System.out.print(i + " ");
+	// }
 }

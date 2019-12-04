@@ -1,4 +1,3 @@
-package mpei;
 
 import java.util.Random;
 

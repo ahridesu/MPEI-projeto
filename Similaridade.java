@@ -1,4 +1,3 @@
-package mpei;
 
 import java.io.IOException;
 
@@ -71,20 +70,20 @@ public class Similaridade{
 		System.out.printf("=\t%.3f%%\n", jaccard*100);
 	}
 	
-	public static void main(String args[]) throws IOException {
-		Shingle sg = new Shingle();
-		Livro livro = new Livro("test");
-		Livro livro1 = new Livro("test_copia");
-		ListaLivros.lista.add(livro);
-		ListaLivros.lista.add(livro1);
-		String path1 = Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
-		String path2 = Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test_copia.txt");
-		Shingle.readShingleFile(path1);
-		Shingle.readShingleFile(path2);
-		Similaridade.printPivotTitleSim("test");
-		Similaridade.printPivotContentSim("test");
-		Similaridade.printTitleCompare("test", "test_copia");
-		Similaridade.printContentCompare("test", "test_copia");
-	}
+	// public static void main(String args[]) throws IOException {
+	// 	Shingle sg = new Shingle();
+	// 	Livro livro = new Livro("test");
+	// 	Livro livro1 = new Livro("test_copia");
+	// 	ListaLivros.lista.add(livro);
+	// 	ListaLivros.lista.add(livro1);
+	// 	String path1 = Shingle.createShingleFile("C:\\Users\\Ahri Gonï¿½alves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
+	// 	String path2 = Shingle.createShingleFile("C:\\Users\\Ahri Gonï¿½alves\\eclipse-workspace\\p3\\src\\mpei\\test_copia.txt");
+	// 	Shingle.readShingleFile(path1);
+	// 	Shingle.readShingleFile(path2);
+	// 	Similaridade.printPivotTitleSim("test");
+	// 	Similaridade.printPivotContentSim("test");
+	// 	Similaridade.printTitleCompare("test", "test_copia");
+	// 	Similaridade.printContentCompare("test", "test_copia");
+	// }
 	
 }
