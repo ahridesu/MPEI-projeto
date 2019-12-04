@@ -24,6 +24,9 @@ public class CountingBloomFilter {
     public int getSize() {
     	return size;
     }
+    public int getNumElems() {
+    	return numInserts;
+    }
 
     private int charToASCII(char c){          // char para ascii
         return (int)(c);
@@ -47,19 +50,6 @@ public class CountingBloomFilter {
     	return true;                                                // retorna true, mas pode incluir um falso positivo           															
     }	
 	
-	public boolean exists(String nome) {
-		int count = k;
-        for (int i = 0; i < k; i++) 
-        {
-			if (bitarray[Math.abs(stringToHash(nome,k))] > 0) 
-			{
-				count--;
-			}
-		}
-        return count == 0;
-        // if present at every HashCoded index position is probable that has been inserted
-	}
-    
 	public void remove(String nome) {
         for (int i  = 0; i < k; i++) 
         {
