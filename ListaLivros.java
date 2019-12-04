@@ -11,14 +11,19 @@ public class ListaLivros {
 		return lista.toArray(new Livro[0]);
 	}
 	
-	public static int getIndex(String titulo) {
-		Livro livro = null;
+	public static Livro searchLivro(String titulo) {
 		for(Livro l: lista) {
 			if(l.getTitulo().equals(titulo)) {
-				return l.getIndice();
+				return l;
 			}
 		}
-		return -1;
+		return null;
+	}
+	
+	public static void printLivros() {
+		for(Livro l: lista) {
+			System.out.println(l);
+		}
 	}
 	
 }

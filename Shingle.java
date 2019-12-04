@@ -5,26 +5,32 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Shingle {
+public class Shingle {					// destinado tratamento e criação de shingles
 	private static int ktitle = 4;
 	private static int kcontent = 10;
-	private static int numhash = 10;
-	public static int matrixTitle[][] = new int[50][numhash];
-	public static int matrixContent[][] = new int[50][numhash];
+	private static int numhash = 10000;
+	private static HashFunction hashfuncs[] = new HashFunction[numhash];
 	
-	public static void createShingleFile(String path){
+	public Shingle() {
+		for(int i=0; i<hashfuncs.length; i++) {
+			hashfuncs[i] = new HashFunction();
+		}
+	}
+	
+	public static String createShingleFile(String path){
 		File fx = new File(path);
 		String title = "";
 		String content = "";
 		StringBuilder sb = new StringBuilder();
+		String p = "";
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(path));
 			String line;
+			
 	        while ((line = in.readLine()) != null) {
 	            if (line.startsWith("Title: ")) {
 	                title = removeLinePrefix(line, "Title: ");   
@@ -39,12 +45,13 @@ public class Shingle {
 	        }
 	        content = sb.toString();
 	        String[] s_title = createShingleTitle(title);
-	        String[] s_content = createShingleContent(content);
-	        createShingleFile(title, s_title, s_content);
+	        String[] s_content = createShingleContent(content); 
+	        p = createShingleFile(fx.getName().replace(".txt", ""), s_title, s_content);
 		} 
 		catch(IOException e) {
 	        e.printStackTrace();
 	    }
+		return p;
 	}
 
 	private static String removeLinePrefix(String line, String prefix) {
@@ -73,8 +80,8 @@ public class Shingle {
 		return shingles.toArray(new String[0]);
 	}
 	
-	private static void createShingleFile(String title, String[] titleset, String[] contentset) throws IOException{
-		File fx = new File("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\" + title + "_shingles.txt"); 
+	private static String createShingleFile(String name, String[] titleset, String[] contentset) throws IOException{
+		File fx = new File("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\" + name + "_shingles.txt"); 
 		PrintWriter pw = new PrintWriter(fx);
 		for(String i: titleset)
 			pw.print(i + "_");					//shingles divididos por _
@@ -83,7 +90,8 @@ public class Shingle {
 		for(String i: contentset)
 			pw.print(i + "_");					//shingles divididos por _
 		pw.close();
-		System.out.println("SHINGLE FILE FOR "+title+" BOOK CREATED!");
+		System.out.println("SHINGLE FILE FOR "+name+" BOOK CREATED!");
+		return fx.getAbsolutePath();
 	}
 	
 	//hashing dos shingles
@@ -97,10 +105,10 @@ public class Shingle {
 	
 	public static void readShingleFile(String path) throws IOException {
 		File fx = new File(path);
-		int index = ListaLivros.getIndex(fx.getName().replace("_shingles.txt", ""));
-		if(index == -1) {
-			throw new IllegalArgumentException("PROBLEMA COM INDEX DO LIVRO");
-		}
+		Livro livro = ListaLivros.searchLivro(fx.getName().replace("_shingles.txt", ""));
+		livro.minHashTitle = new int[numhash];
+		livro.minHashContent = new int[numhash];
+		if(livro == null) throw new IllegalArgumentException("PROBLEMA COM O PATH");
 		Scanner read = new Scanner(fx);
 		while(read.hasNextLine()) {
 			String line = read.nextLine();
@@ -110,10 +118,10 @@ public class Shingle {
 			Scanner readtitle = new Scanner(line).useDelimiter("_");
 			while(readtitle.hasNext()) {
 				String shingle = readtitle.next();
-				HashFunction[] hf = getHashFunctions(shingle);
+				int[] hf = getHashFunctions(shingle);
 				for(int i=0; i<hf.length; i++) {
-					if(matrixTitle[0][i] == 0 || matrixTitle[0][i] > hf[i].signature()) {
-						matrixTitle[0][i] = hf[i].signature();
+					if(livro.minHashTitle[i] > hf[i] || livro.minHashTitle[i] == 0) {
+						livro.minHashTitle[i] = hf[i];
 					}
 				}
 			}
@@ -123,33 +131,39 @@ public class Shingle {
 			Scanner readcontent = new Scanner(line).useDelimiter("_");
 			while(readcontent.hasNext()){
 				String shingle = readcontent.next();
-				HashFunction[] hf = getHashFunctions(shingle);
+				int[] hf = getHashFunctions(shingle);
 				for(int i=0; i<hf.length; i++) {
-					if(matrixContent[0][i] == 0 || matrixContent[0][i] > hf[i].signature()) {
-						matrixContent[0][i] = hf[i].signature();
+					if(livro.minHashContent[i] > hf[i] || livro.minHashContent[i] == 0) {
+						livro.minHashContent[i] = hf[i];
 					}
 				}
 			}
 		}
 	}
 	
-	private static HashFunction[] getHashFunctions(String shingle) {
+	private static int[] getHashFunctions(String shingle) {
 		int id = shingleToHash(shingle);
-		HashFunction array[] = new HashFunction[numhash];
-		for(int i=0; i<array.length; i++) {
-			array[i] = new HashFunction(id);
+		int sign[] = new int[numhash];
+		for(int i=0; i<hashfuncs.length; i++) {
+			sign[i] = Math.abs((hashfuncs[i].a()*id + hashfuncs[i].b()) % HashFunction.prime);
 		}
-		return array;
+		return sign;
 	}
 	
 	public static void main(String args[]) throws IOException {
-		Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
-		Livro livro = new Livro("Dracula");
+		Shingle sg = new Shingle();
+		Livro livro = new Livro("test");
+		Livro livro1 = new Livro("test_copia");
 		ListaLivros.lista.add(livro);
-		Shingle.readShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\Dracula_shingles.txt");
-		for (int[] row : matrixTitle) 
-            System.out.println(Arrays.toString(row)); 
-//		for (int[] row : matrixContent) 
-//            System.out.println(Arrays.toString(row)); 
+		ListaLivros.lista.add(livro1);
+		String path1 = Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
+		String path2 = Shingle.createShingleFile("C:\\Users\\Ahri Gonçalves\\eclipse-workspace\\p3\\src\\mpei\\test_copia.txt");
+		Shingle.readShingleFile(path1);
+		Shingle.readShingleFile(path2);
+		for(int i: livro.minHashTitle) 
+			System.out.print(i + " ");
+		System.out.println("");
+		for(int i: livro1.minHashTitle)
+			System.out.print(i + " ");
 	}
 }
