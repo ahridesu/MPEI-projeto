@@ -5,13 +5,12 @@ public class CountingBloomFilter {
 	private int numInserts = 0; //contador
 	private int k;              // number of hashFunctions
 	private int size;              // Bloom bitarray positions
-	private double p = 0.01;    // false positive probability
+	private double nFP = 0.01;    // false positive probability
 	
-	public CountingBloomFilter(int n) 
-	{
-		size = (int)Math.round(((-n*Math.log(p))/Math.pow((Math.log(2)),2))); 
+	public CountingBloomFilter(int n) {
+		size = (int)(Math.ceil((n*Math.log(nFP))/Math.log(1/Math.pow(2, Math.log(2)))));
+        k = (int)(Math.ceil((size/n)*Math.log(2)));
         bitarray = new int[size];
-        k = (int)((size/n)*Math.log(2));
 	}
 	
 	 public int[] getBitArray(){
@@ -31,16 +30,15 @@ public class CountingBloomFilter {
     }
 	
 	
-	public void insert(String nome) 
-	{
-        for (int i  = 0; i < k; i++) 
+	public void insert(String nome){
+        for (int i=1; i < k; i++) 
         {
         	bitarray[stringToHash(nome, i)] = 1;
 		}
 		numInserts++;
 	}
     
-	public boolean query(String nome){                                 // verifica se o nome de um livro pertence ao acervo    
+	public boolean query(String nome) {                                 // verifica se o nome de um livro pertence ao acervo    
     	for(int i=1; i<=k; i++) {
     		if(!(bitarray[stringToHash(nome, i)] == 1)) {
     			return false;
@@ -49,8 +47,7 @@ public class CountingBloomFilter {
     	return true;                                                // retorna true, mas pode incluir um falso positivo           															
     }	
 	
-	public boolean exists(String nome) 
-	{
+	public boolean exists(String nome) {
 		int count = k;
         for (int i = 0; i < k; i++) 
         {
@@ -63,8 +60,7 @@ public class CountingBloomFilter {
         // if present at every HashCoded index position is probable that has been inserted
 	}
     
-	public void remove(String nome) 
-	{
+	public void remove(String nome) {
         for (int i  = 0; i < k; i++) 
         {
         	if (bitarray[Math.abs(stringToHash(nome,k))] > 0)  
