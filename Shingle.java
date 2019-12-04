@@ -11,7 +11,7 @@ import java.util.Set;
 public class Shingle {					// destinado tratamento e cria��o de shingles
 	private static int ktitle = 4;
 	private static int kcontent = 10;
-	private static int numhash = 10000;
+	private static int numhash = 100;
 	private static HashFunction hashfuncs[] = new HashFunction[numhash];
 	
 	public Shingle() {
@@ -29,16 +29,17 @@ public class Shingle {					// destinado tratamento e cria��o de shingles
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(path));
 			String line;
-			
 	        while ((line = in.readLine()) != null) {
 	            if (line.startsWith("Title: ")) {
 	                title = removeLinePrefix(line, "Title: ");   
 		            line = in.readLine();
 	            }
 	            if(line.startsWith("*** START OF THIS PROJECT GUTENBERG EBOOK")) {
-	            	while(!((line = in.readLine()).startsWith("*** END OF THIS PROJECT GUTENBERG EBOOK"))) {
-	            		line = in.readLine();
-	            		sb.append(line);
+	            	while((line = in.readLine()) != null) {
+						if(!line.startsWith("*** END OF THIS PROJECT GUTENBERG EBOOK")){
+							line = in.readLine();
+	            			sb.append(line);
+						}
 	            	}
 	            }
 	        }

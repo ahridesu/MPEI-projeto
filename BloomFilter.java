@@ -1,4 +1,3 @@
-package mpei;
 
 public class BloomFilter {
 	// grupo de nomes de livros no acervo em bloomfilter
