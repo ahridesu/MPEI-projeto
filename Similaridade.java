@@ -5,7 +5,7 @@ public class Similaridade{
 	
 	public static void printPivotTitleSim(String nome) {			// printa a similaridade a partir de um determinado TITULO por ordem decrescente
 		Livro livro = ListaLivros.searchLivro(nome);
-		if(livro == null) throw new IllegalArgumentException("PROBLEMA COM PATH");
+		if(livro == null) throw new IllegalArgumentException("LIVRO NULO");
 		System.out.println("SIMILARITY OF ALL BOOK TITLES COMPARING TO " + nome + ":");
 		for(Livro l: ListaLivros.lista) {
 			int counter = 0;
@@ -16,7 +16,7 @@ public class Similaridade{
 			}
 			if(!l.equals(livro)) {
 				double jaccard = ((double)counter/((double)livro.minHashTitle.length*2 - counter));
-				System.out.printf("%s\t\t=\t\t%.3f%%\n", l.getTitulo(), jaccard*100);
+				System.out.printf("%50.50s = %.3f%%\n", l.getTitulo(), jaccard*100);
 			}
 		}
 	}
@@ -34,7 +34,7 @@ public class Similaridade{
 			}
 			if(!l.equals(livro)) {
 				double jaccard = ((double)counter/((double)livro.minHashContent.length*2 - counter));
-				System.out.printf("%s\t\t=\t\t%.3f%%\n", l.getTitulo(), jaccard*100);
+				System.out.printf("%50.50s = %.3f%%\n", l.getTitulo(), jaccard*100);
 			}
 		}
 	}

@@ -28,24 +28,24 @@ public class BloomFilter {
         return (int)(c);
     }
     
-    private int stringToHash(String nome, int k) {
+    private int stringToHash(String nome) {
     	int hash = 0;
     	char[] palavra = nome.toCharArray();
     	for(char c: palavra) {
-    		hash = Math.abs(37 * hash + charToASCII(c)); 
+    		hash = 37 * hash + charToASCII(c); 
     	}
-    	return (int)(hash % k);
+    	return (int)Math.abs((hash % size));
     }
 
     public void insert(String nome){                                   // insere nome do livro no bloomfilter
-    	for(int i=1; i<=k; i++) {
-    		bitarray[stringToHash(nome, i)] = 1;
+    	for(int i=0; i<k; i++) {
+    		bitarray[stringToHash(nome)] = 1;
     	}
     }
 
     public boolean query(String nome){                                 // verifica se o nome de um livro pertence ao acervo    
-    	for(int i=1; i<=k; i++) {
-    		if(!(bitarray[stringToHash(nome, i)] == 1)) {
+    	for(int i=0; i<k; i++) {
+    		if(!(bitarray[stringToHash(nome)] == 1)) {
     			return false;
     		}
     	}

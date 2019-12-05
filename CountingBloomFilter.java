@@ -32,41 +32,49 @@ public class CountingBloomFilter {
     }
 	
 	
-	public void insert(String nome){
-        for (int i=1; i < k; i++) 
-        {
-        	bitarray[stringToHash(nome, i)] = 1;
-		}
-		numInserts++;
+	public boolean insert(String nome){
+		if(!query(nome)){
+			for (int i=0; i<k; i++) 
+        	{
+        		bitarray[stringToHash(nome)] = 1;
+			}
+			numInserts++;
+			return true;
+		}else return false;
+        
 	}
     
 	public boolean query(String nome) {                                 // verifica se o nome de um livro pertence ao acervo    
-    	for(int i=1; i<=k; i++) {
-    		if(!(bitarray[stringToHash(nome, i)] == 1)) {
+    	for(int i=0; i<k; i++) {
+    		if(!(bitarray[stringToHash(nome)] == 1)) {
     			return false;
     		}
     	}
     	return true;                                                // retorna true, mas pode incluir um falso positivo           															
     }	
 	
-	public void remove(String nome) {
-        for (int i  = 0; i < k; i++) 
-        {
-        	if (bitarray[Math.abs(stringToHash(nome,k))] > 0)  
-            {
-        		bitarray[Math.abs(stringToHash(nome,k))]--;
+	public boolean remove(String nome) {
+		if(query(nome)){
+			for (int i=0; i<k; i++) 
+        	{
+        		if (bitarray[stringToHash(nome)] > 0)  
+            	{
+        			bitarray[stringToHash(nome)]--;
+				}
 			}
-		}
-		numInserts--;
+			numInserts--;
+			return true;
+		}else return false;
+        
 	}
    
-	private int stringToHash(String nome, int k) {
+	private int stringToHash(String nome) {
     	int hash = 0;
     	char[] palavra = nome.toCharArray();
     	for(char c: palavra) {
-    		hash = Math.abs(37 * hash + charToASCII(c)); 
+    		hash = 37 * hash + charToASCII(c); 
     	}
-    	return (int)(hash % k);
+    	return (int)Math.abs((hash % size));
     }
    
 	

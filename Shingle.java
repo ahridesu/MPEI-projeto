@@ -157,8 +157,8 @@ public class Shingle {					// destinado tratamento e cria��o de shingles
 	// 	Livro livro1 = new Livro("test_copia");
 	// 	ListaLivros.lista.add(livro);
 	// 	ListaLivros.lista.add(livro1);
-	// 	String path1 = Shingle.createShingleFile("C:\\Users\\Ahri Gon�alves\\eclipse-workspace\\p3\\src\\mpei\\test.txt"); // pode ser qualquer path
-	// 	String path2 = Shingle.createShingleFile("C:\\Users\\Ahri Gon�alves\\eclipse-workspace\\p3\\src\\mpei\\test_copia.txt");
+	// 	String path1 = Shingle.createShingleFile(); // pode ser qualquer path
+	// 	String path2 = Shingle.createShingleFile();
 	// 	Shingle.readShingleFile(path1);
 	// 	Shingle.readShingleFile(path2);
 	// 	for(int i: livro.minHashTitle) 
