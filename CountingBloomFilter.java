@@ -1,4 +1,3 @@
-package mpei;
 
 public class CountingBloomFilter {
 	private int[] bitarray;
