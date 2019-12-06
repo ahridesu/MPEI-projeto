@@ -1,9 +1,6 @@
 
 public class Livro {
 	private String titulo;
-	private boolean req = false; //Requisitado==true 
-	private Data data; //Data de requisição, a do dia atual por default
-	private int nReq = 0; //contador de numero de vezes que foi req.
 	public int minHashTitle[]; // array de minhash do titulo do livro
 	public int minHashContent[];
 	
@@ -11,31 +8,12 @@ public class Livro {
 	
 	public Livro(String titulo) {
 		this.titulo = titulo.replace(".txt", "");
-		this.data = Data.today();
-	}
-	
-	public Livro(String titulo, String sinopse, Data data) { // Para livros requisitados, se adicionada data ent�o fica requisitado
-		this(titulo);
-		req = true;
-		nReq++;
-		this.data = data;
 	}
 	
 	//________________GETS_________________
 	
 	public String getTitulo() {
 		return titulo;
-	}
-	
-	public boolean getRequisitado() {
-		return req;
-	}
-	
-	//_____________SETS______________________
-	
-	public void setRequisitado(boolean req) {
-		this.req = req;
-		
 	}
 	
 	//______________PRINTS_____________________
