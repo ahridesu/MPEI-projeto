@@ -16,16 +16,8 @@ public class Livro {
 		return titulo;
 	}
 	
-	//______________PRINTS_____________________
-	
-	@Override public String toString() { 
-		String s = "Titulo: '"+titulo+"', Requisitado: "+req+", Data de Requisi��o: " +data.toString();
-		String n = "Titulo: '"+titulo+"'" + ", Requisitado: "+req;
-		if(req == true) return s; else return n;
-	}
-	
 	public boolean equals(Livro l) {
-		if(this.titulo.equalsIgnoreCase(l.titulo) && this.req == l.req && this.nReq == l.nReq) {
+		if(this.titulo.equalsIgnoreCase(l.titulo)) {
 			return true;
 		}else return false;
 	}
