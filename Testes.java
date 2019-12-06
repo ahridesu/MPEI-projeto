@@ -49,7 +49,8 @@ public class Testes {
 		System.out.println("teste 1: "+cbf.query("teste1.txt")+" --- deve dar 'true'");
 		System.out.println("teste 2: "+cbf.query("teste2.txt")+" --- deve dar 'true'");
 		System.out.println("teste 3: "+cbf.query("teste3.txt")+" --- deve dar 'true'");
-		System.out.println("teste 4: "+cbf.query("teste9.txt")+" --- deve dar 'false'");
+		System.out.println("teste 4: "+cbf.query("teste54.txt")+" --- deve dar 'false'");
+		System.out.println("teste 5: "+cbf.query("teste9.txt")+" --- deve dar 'false' (caso de falso positivo)")
 		System.out.println(" ");
 		System.out.println("A remover teste 1 do CountingBloomFilter");
 		cbf.remove("teste1.txt");
