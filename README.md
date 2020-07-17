@@ -1,4 +1,4 @@
-Projeto de MPEI (Metodos Probabilisticos para Engenharia Informática, 1º Semestre, Segundo ano. 
+Projeto de MPEI (Metodos Probabilisticos para Engenharia Informática), 1º Semestre, Segundo ano. 
 
 Universidade de Aveiro. 
 
